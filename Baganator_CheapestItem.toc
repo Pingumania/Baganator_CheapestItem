@@ -1,0 +1,15 @@
+## Interface: 110207
+## Interface-Classic: 50503
+## Interface-Vanilla: 11508
+
+## Title: Baganator Cheapest Item
+## Notes: Baganator corner widget showing the cheapest item(s) in your bags.
+## Category: Bags
+## Author: Pingumania
+## Version: @project-version@
+
+## RequiredDeps: Baganator
+
+Libs\Huddle\Embed.xml
+
+Baganator_CheapestItem.lua
