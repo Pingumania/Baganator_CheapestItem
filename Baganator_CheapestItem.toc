@@ -10,4 +10,4 @@
 
 Libs\Huddle\Embed.xml
 
-Baganator_CheapestItem.lua
+Addon.lua

@@ -1,4 +1,4 @@
-local _, A = ...
+local _, ns = ...
 
 local config = {
 	showCheapestItem = false, -- true to show the cheapest item, false to show cheapest stack
@@ -7,13 +7,13 @@ local config = {
 local Baganator = Baganator
 local cachedItems = nil
 
-if A:IsClassicEra() then
+if ns:IsClassicEra() then
 	Enum.ItemQuality.Common = 1
 	Enum.ItemQuality.Uncommon = 2
 	Enum.ItemQuality.Rare = 3
 end
 
-function A:BAG_UPDATE()
+function ns:BAG_UPDATE()
 	cachedItems = nil
 	Baganator.API.RequestItemButtonsRefresh({Baganator.Constants.RefreshReason.ItemWidgets})
 end
@@ -104,6 +104,6 @@ local function OnInit(itemButton)
 	return icon
 end
 
-function A:OnLoad()
+function ns:OnLoad()
 	Baganator.API.RegisterCornerWidget("Cheapest Item", "cheapest_item", OnUpdate, OnInit)
 end
