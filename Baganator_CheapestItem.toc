@@ -3,6 +3,7 @@
 ## Title: Baganator Cheapest Item
 ## Notes: Baganator corner widget showing the cheapest item(s) in your bags.
 ## Category: Bags
+## IconAtlas: bags-junkcoin
 ## Author: Pingumania
 ## Version: @project-version@
 
