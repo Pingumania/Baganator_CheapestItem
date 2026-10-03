@@ -7,11 +7,7 @@ local config = {
 local Baganator = Baganator
 local cachedItems = nil
 
-if ns:IsClassicEra() then
-	Enum.ItemQuality.Common = 1
-	Enum.ItemQuality.Uncommon = 2
-	Enum.ItemQuality.Rare = 3
-end
+local MAX_QUALITY = Enum.ItemQuality.Uncommon
 
 function ns:BAG_UPDATE()
 	cachedItems = nil
@@ -23,12 +19,12 @@ local function ItemShouldBeIgnored(itemInfo)
 		return true
 	end
 
-	if itemInfo.quality > Enum.ItemQuality.Uncommon then
+	if itemInfo.quality > MAX_QUALITY then
 		return true
 	end
 
-	if itemInfo.itemType == Enum.ItemClass.Questitem or
-		itemInfo.itemType == Enum.ItemClass.Key then
+	if itemInfo.classID == Enum.ItemClass.Questitem or
+		itemInfo.classID == Enum.ItemClass.Key then
 		return true
 	end
 
@@ -49,8 +45,12 @@ local function CalculateCheapest()
 			local itemLink = C_Container.GetContainerItemLink(bag, slot)
 			if itemLink and not seen[itemLink] then
 				local itemInfo = C_Container.GetContainerItemInfo(bag, slot)
-				local _, _, _, _, _, itemType, _, _, _, _, sellPrice = C_Item.GetItemInfo(itemLink)
-				itemInfo.itemType = itemType
+				local _, _, _, _, _, _, _, _, _, _, sellPrice, classID = C_Item.GetItemInfo(itemInfo.itemID)
+				if not sellPrice then
+					C_Item.RequestLoadItemDataByID(itemInfo.itemID)
+					return nil
+				end
+				itemInfo.classID = classID
 				itemInfo.sellPrice = sellPrice
 				if not ItemShouldBeIgnored(itemInfo) then
 					local price = sellPrice * itemInfo.stackCount
@@ -80,13 +80,18 @@ end
 local function OnUpdate(icon, details)
 	local items = CalculateCheapest()
 
+	if not items then
+		return nil
+	end
+
 	for _, v in ipairs(items) do
 		if config.showCheapestItem then
 			if details.itemLink == v.itemLink then
 				return true
 			end
 		else
-			if details.itemLocation.bagID == v.bagID and details.itemLocation.slotIndex == v.slotIndex then
+			if details.itemLocation and details.itemLocation.bagID == v.bagID
+				and details.itemLocation.slotIndex == v.slotIndex then
 				return true
 			end
 		end
@@ -97,10 +102,8 @@ end
 
 local function OnInit(itemButton)
 	local icon = itemButton:CreateTexture(nil, "OVERLAY")
-	icon:SetTexture("interface\\transmogrify\\transmogrify")
-	local offset = 0.005
-	icon:SetTexCoord(0.533203125 + offset, 0.58203125 - offset, 0.248046875 + offset, 0.294921875 - offset)
-	icon:SetSize(16, 16)
+	icon:SetAtlas("bags-junkcoin")
+	icon:SetSize(16, 14)
 	return icon
 end
 
