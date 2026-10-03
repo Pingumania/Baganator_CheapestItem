@@ -1,4 +1,4 @@
-## Interface: 11508, 16001, 120100
+## Interface: 16001, 120100
 
 ## Title: Baganator Cheapest Item
 ## Notes: Baganator corner widget showing the cheapest item(s) in your bags.
