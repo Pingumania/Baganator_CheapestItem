@@ -102,8 +102,8 @@ end
 
 local function OnInit(itemButton)
 	local icon = itemButton:CreateTexture(nil, "OVERLAY")
-	icon:SetAtlas("bags-junkcoin")
-	icon:SetSize(16, 14)
+	icon:SetAtlas("lootroll-icon-pass")
+	icon:SetSize(14, 14)
 	return icon
 end
 
